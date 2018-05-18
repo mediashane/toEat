@@ -29,7 +29,6 @@ MongoClient.connect('mongodb://localhost:27017/toEatApp', (err, db) => {
         }
     }, {
         returnOriginal: false       
-        
     }).then((result) => {
         console.log(result);
     });
