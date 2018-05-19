@@ -10,15 +10,15 @@ const addUser = mongoose.model('addUser', {
     }
 });
 
-const newUser = new addUser({
-    email: 'shane@email.com',
-});
+// const newUser = new addUser({
+//     email: 'shane@email.com',
+// });
 
 
-newUser.save().then((doc) => {
-    console.log(`Saved: ${doc}`, undefined, 2);
-    }, (err) => {
-        console.log('Unable to update');
-});
+// newUser.save().then((doc) => {
+//     console.log(`Saved: ${doc}`, undefined, 2);
+//     }, (err) => {
+//         console.log('Unable to update');
+// });
 
 module.exports = { addUser };

@@ -17,16 +17,16 @@ const toEat = mongoose.model('toEat', {
     }
 });
 
-const newEat = new toEat({
-    text: 'Cooked dinner at home',
-    completed: true,
-    completedAt: Date.now(),
-});
+// const newEat = new toEat({
+//     text: 'Cooked dinner at home',
+//     completed: true,
+//     completedAt: Date.now(),
+// });
 
-newEat.save().then((doc) => {
-    console.log(`Saved: ${doc}`, undefined, 2);
-    }, (err) => {
-        console.log('Unable to update');
-});
+// newEat.save().then((doc) => {
+//     console.log(`Saved: ${doc}`, undefined, 2);
+//     }, (err) => {
+//         console.log('Unable to update');
+// });
 
 module.exports = { toEat };
