@@ -2,6 +2,7 @@ const expect = require('expect');
 const request = require('supertest');
 const {ObjectID} = require('mongodb');
 
+
 const { app } = require('./../server');
 const { toEat } = require('./../models/eats');
 
@@ -101,3 +102,42 @@ describe('GET /toeats/:id', () => {
             .end(done);
     });
 }); 
+
+describe('DELETE /toeats/:id', () => {
+    it('should remove a toeat', (done) => {
+        const hexId = localToEats[1]._id.toHexString();
+
+        request(app)
+            .delete(`/toeats/${hexId}`)
+            .expect(200)
+            .expect((res) => {
+                console.log(res.body)
+                expect (res.body.eat._id).toBe(hexId)
+            })
+            .end((err, res) => {
+                if (err) {
+                    return done(err);
+                }
+
+            toEat.findById(hexId).then((toeat) => {
+                expect(toeat).toNotExist();
+                done();
+            }).catch((err) => done(err));
+        })
+    });
+
+    it('should return a 404 if toeat not found', (done) => {
+        const hexId = new ObjectID().toHexString();
+        request(app)
+            .delete(`/toeats/${hexId}`)
+            .expect(404)
+            .end(done);
+    });
+
+    if('should return 404 if id not valid', (done) => {
+        request(app)
+            .delete(`/toeats/123ABC`)
+            .expect(404)
+            .end(done);
+    });
+});
