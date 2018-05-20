@@ -8,10 +8,14 @@ const { toEat } = require('./../models/eats');
 
 const localToEats = [{
     text: 'first thing to eat',
-    _id: new ObjectID
+    _id: new ObjectID,
+    completed: true,
+    completedAt: 123
     }, {
     text: 'second thing to eat',
-    _id: new ObjectID
+    _id: new ObjectID,
+    completed: true,
+    completedAt: 123
 }];
 
 beforeEach((done) => {
@@ -141,3 +145,40 @@ describe('DELETE /toeats/:id', () => {
             .end(done);
     });
 });
+
+describe('PATCH /toeats/:id', () => {
+    it('should update the toeat', (done) => {
+        const hexId = localToEats[0]._id.toHexString();
+        const text = 'new dummy text';
+        request(app)
+            .patch(`/toeats/${hexId}`)
+            .send({
+                completed: true,
+                text
+            })
+            .expect(200)
+            .expect((res) => {
+                expect(res.body.eat.text).toBe(text);
+                expect(res.body.eat.completed).toBe(true);
+                expect(res.body.eat.completedAt).toBeA('number');
+            })
+            .end(done)
+    });
+    it('should clear completedAt when toeat is not completed', (done) => {
+        const hexId = localToEats[1]._id.toHexString();
+        const text = 'newer dummy text!!';
+        request(app)
+            .patch(`/toeats/${hexId}`)
+            .send({
+                completed: false,
+                text
+            })
+            .expect(200)
+            .expect((res) => {
+                expect(res.body.eat.text).toBe(text);
+                expect(res.body.eat.completed).toBe(false);
+                expect(res.body.eat.completedAt).toNotExist();
+            })
+            .end(done)
+    });
+})
